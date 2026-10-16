@@ -30,7 +30,9 @@ const app = express();
 
 // Cấu hình đọc từ biến môi trường (trên hosting đặt trong phần Environment; chạy máy nhà thì dùng file .env)
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/nomnomfood";
+// Bỏ khoảng trắng / xuống dòng / dấu ngoặc / "MONGODB_URI=" thường dính vào khi dán trên trang hosting
+const MONGODB_URI = (process.env.MONGODB_URI || "").replace(/\s+/g, "").replace(/^MONGODB_URI=/, "").replace(/^["'<]+|["'>]+$/g, "")
+    || "mongodb://127.0.0.1:27017/nomnomfood";
 // ============================
 // MIDDLEWARE
 // ============================
