@@ -48,7 +48,15 @@ app.use(require("compression")()); // nén gzip phản hồi (danh sách đơn h
 app.use(express.json({ limit: "1mb" }));
 
 // SEO + trang tĩnh
-app.get("/healthz", (req, res) => res.json({ ok: true, db: mongoose.connection.readyState === 1 }));
+let dbError = null; // loại lỗi kết nối gần nhất (không chứa chuỗi kết nối) — để chẩn đoán trên hosting
+app.get("/healthz", (req, res) => res.json({
+    ok: true,
+    db: mongoose.connection.readyState === 1,
+    ...(mongoose.connection.readyState !== 1 && {
+        dbError,
+        dbHost: /127\.0\.0\.1|localhost/.test(MONGODB_URI) ? "local (chưa đặt MONGODB_URI)" : "remote",
+    }),
+}));
 app.get("/robots.txt", seo.robots);
 app.get("/sitemap.xml", seo.sitemap);
 app.use(seo.pages());
@@ -69,9 +77,11 @@ app.use(guard);
 // ============================
 // KẾT NỐI MONGODB
 // ============================
-mongoose
-    .connect(MONGODB_URI)
+// Lần đầu kết nối lỗi thì mongoose không tự thử lại → thử lại mỗi 15 giây
+const connectDb = () => mongoose
+    .connect(MONGODB_URI, { serverSelectionTimeoutMS: 15000 })
     .then(async () => {
+        dbError = null;
         console.log("MongoDB Connected");
         await seedAccounting();
         // Các phiếu hoàn tiền tạo trước khi có luồng "khách yêu cầu" đều đã
@@ -83,8 +93,12 @@ mongoose
         );
     })
     .catch((err) => {
-        console.log(err);
+        console.log("Lỗi kết nối MongoDB:", err.message);
+        dbError = [err.name, err.codeName || err.code, err.reason && err.reason.type].filter(Boolean).join(" / ") || "unknown";
+        if (/auth/i.test(err.message)) dbError += " (sai user/mật khẩu)";
+        setTimeout(connectDb, 15000);
     });
+connectDb();
 // ============================
 // ROUTES
 // ============================
