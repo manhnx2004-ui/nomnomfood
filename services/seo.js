@@ -29,7 +29,9 @@ const PUBLIC_PAGES = {
     "product-detail.html": { loc: null, desc: DEFAULT_DESC },
 };
 
-const siteUrl = (req) => (process.env.SITE_URL || `${req.protocol}://${req.get("host")}`).replace(/\/+$/, "");
+// "none" = chưa có mã xác minh (Render bắt điền giá trị khi tạo)
+const GOOGLE_VERIFY = (process.env.GOOGLE_SITE_VERIFICATION || "").trim().replace(/^none$/i, "");
+const siteUrl = (req) => ((process.env.SITE_URL || "").trim() || `${req.protocol}://${req.get("host")}`).replace(/\/+$/, "");
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const absUrl = (base, u) => (!u ? "" : /^https?:\/\//i.test(u) ? u : base + (u.startsWith("/") ? u : "/" + u));
 const jsonLd = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>`;
@@ -139,8 +141,8 @@ function pages() {
                 `<meta property="og:locale" content="vi_VN" />`,
                 `<meta name="twitter:card" content="summary_large_image" />`,
                 `<link rel="icon" href="/Images/Logo.png" />`,
-                process.env.GOOGLE_SITE_VERIFICATION
-                    ? `<meta name="google-site-verification" content="${esc(process.env.GOOGLE_SITE_VERIFICATION)}" />` : "",
+                GOOGLE_VERIFY
+                    ? `<meta name="google-site-verification" content="${esc(GOOGLE_VERIFY)}" />` : "",
                 ...ld.map(jsonLd),
             ].filter(Boolean).join("\n    ");
 
