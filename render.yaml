@@ -1,0 +1,25 @@
+# Cấu hình Render (Blueprint): Render đọc file này để tự tạo web service.
+# Render → New → Blueprint → chọn repository nomnomfood → điền các biến "sync: false" → Apply.
+services:
+  - type: web
+    name: nomnomfood
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true # Render tự tạo chuỗi ngẫu nhiên
+      - key: MONGODB_URI
+        sync: false # chuỗi MongoDB Atlas — nhập khi tạo
+      - key: GROQ_API_KEY
+        sync: false # khóa Groq cho NomBot — nhập khi tạo
+      - key: SITE_URL
+        sync: false # ví dụ https://nomnomfood.onrender.com
+      - key: GOOGLE_SITE_VERIFICATION
+        sync: false # để trống được, điền sau ở Bước 4

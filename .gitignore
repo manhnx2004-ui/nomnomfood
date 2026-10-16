@@ -1,0 +1,17 @@
+# Thư viện cài bằng npm install (hosting tự cài lại)
+node_modules/
+
+# Bí mật: KHÔNG đưa lên GitHub
+.env
+
+# Dữ liệu MongoDB chạy trên máy
+mongodb-data/
+
+# File rác
+.claude/
+*.log
+.DS_Store
+Thumbs.db
+
+# Thư mục sao lưu code cũ (chỉ giữ trên máy)
+_backup_truoc_khi_sua/

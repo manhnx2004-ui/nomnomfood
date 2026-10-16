@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tài khoản - NomNomFood</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="../CSS/site.css" />
+    <link rel="stylesheet" href="../CSS/footer.css" />
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="bg-danger text-white shadow-sm">
+    <div class="container py-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <a href="index.html" class="text-white text-decoration-none fw-bold fs-5">
+            <i class="fa-solid fa-utensils me-2"></i>NomNomFood
+        </a>
+        <nav class="d-flex align-items-center gap-3 flex-wrap">
+            <a class="text-white text-decoration-none" href="index.html">Trang chủ</a>
+            <a class="text-white text-decoration-none" href="product.html">Sản phẩm</a>
+            <a class="text-white text-decoration-none" href="cart.html">
+                <i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng
+                <span id="cart-badge" class="badge bg-white text-danger">0</span>
+            </a>
+            <a class="text-white text-decoration-none" href="orders.html">Đơn hàng</a>
+            <a class="text-white text-decoration-none fw-bold border-bottom border-white" href="profile.html">Tài khoản</a>
+        </nav>
+        <div id="nav-auth" class="d-flex gap-2">
+            <a href="login.html" class="btn btn-outline-light btn-sm">Đăng nhập</a>
+            <a href="dki.html" class="btn btn-light btn-sm text-danger fw-semibold">Đăng ký</a>
+        </div>
+    </div>
+</header>
+
+<main class="container py-4">
+    <h1 class="fs-3 mb-4">Tài khoản của bạn</h1>
+
+    <div class="row g-4">
+        <!-- Info card -->
+        <div class="col-lg-4">
+            <div class="bg-white rounded-4 shadow-sm p-4 text-center">
+                <!-- Avatar -->
+                <div class="position-relative d-inline-block mb-3">
+                    <div class="rounded-circle overflow-hidden"
+                         style="width:96px;height:96px;border:3px solid #dc3545;background:#fff0f3">
+                        <img id="profile-avatar" src="" alt="Avatar"
+                             class="w-100 h-100" style="object-fit:cover">
+                    </div>
+                    <button class="btn btn-danger btn-sm rounded-circle position-absolute p-0
+                                   d-flex align-items-center justify-content-center"
+                            style="bottom:2px;right:2px;width:30px;height:30px;
+                                   border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25)"
+                            onclick="openAvatarModal()" title="Đổi ảnh đại diện">
+                        <i class="fa-solid fa-camera" style="font-size:12px"></i>
+                    </button>
+                </div>
+                <h5 id="profile-name" class="mb-1 fw-bold">...</h5>
+                <p class="text-secondary small mb-1" id="profile-email"></p>
+                <p class="text-secondary small mb-1" id="profile-phone"></p>
+                <button class="btn btn-link btn-sm text-danger p-0 small mb-3"
+                        onclick="openAvatarModal()">
+                    <i class="fa-solid fa-image me-1"></i>Đổi ảnh đại diện
+                </button>
+                <hr class="mt-0">
+                <a href="orders.html" class="btn btn-outline-danger w-100 mb-2">
+                    <i class="fa-solid fa-box me-1"></i>Xem đơn hàng
+                </a>
+                <button class="btn btn-outline-secondary w-100" onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- Edit form -->
+        <div class="col-lg-8">
+            <div class="bg-white rounded-4 shadow-sm p-4">
+                <h5 class="mb-3">Cập nhật thông tin</h5>
+                <form id="profileForm" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Họ và tên</label>
+                            <input id="edit-name" class="form-control" type="text" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Số điện thoại</label>
+                            <input id="edit-phone" class="form-control" type="tel">
+                        </div>
+
+                        <div class="col-12 mt-2">
+                            <h6 class="text-secondary">Địa chỉ giao hàng mặc định</h6>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Địa chỉ</label>
+                            <input id="edit-street" class="form-control" type="text"
+                                   placeholder="Số nhà, tên đường, phường/xã">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Thành phố</label>
+                            <input id="edit-city" class="form-control" type="text">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Quận / Huyện</label>
+                            <input id="edit-district" class="form-control" type="text">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold">Mã bưu chính</label>
+                            <input id="edit-postal" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <button id="save-btn" class="btn btn-danger mt-4 px-4" type="submit">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>Lưu thay đổi
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="mt-5">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Về Chúng Tôi</h3>
+            <p>
+                NomNomFood - Đặt đồ ăn ngon, giao tận nơi<br />
+                Địa chỉ: 123 Trần Phú, Hà Nội<br />
+                Hotline: 0123 456 789<br />
+                Email: info@nomnomfood.vn
+            </p>
+        </div>
+        <div class="footer-column">
+            <h3>Liên Kết Nhanh</h3>
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="product.html">Sản phẩm</a></li>
+                <li><a href="cart.html">Giỏ hàng</a></li>
+                <li><a href="orders.html">Đơn hàng</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Hỗ Trợ Khách Hàng</h3>
+            <ul>
+                <li><a href="#">Hướng dẫn mua hàng</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Câu hỏi thường gặp</a></li>
+                <li><a href="about.html">Về chúng tôi</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Kết Nối Với Chúng Tôi</h3>
+            <ul>
+                <li><a href="#"><i class="fab fa-facebook me-2"></i>Facebook</a></li>
+                <li><a href="#"><i class="fab fa-instagram me-2"></i>Instagram</a></li>
+                <li><a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a></li>
+                <li><a href="#"><i class="fab fa-tiktok me-2"></i>TikTok</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2025 NomNomFood. All rights reserved.
+    </div>
+</footer>
+
+<!-- Avatar Picker Modal -->
+<div class="modal fade" id="avatarModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-4 border-0">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">
+                    <i class="fa-solid fa-image text-danger me-2"></i>Đổi ảnh đại diện
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-2">
+
+                <!-- Preview -->
+                <div class="text-center mb-4">
+                    <div class="rounded-circle overflow-hidden d-inline-block"
+                         style="width:96px;height:96px;border:3px solid #dc3545;background:#fff0f3">
+                        <img id="avatar-preview" src="" alt="Preview"
+                             class="w-100 h-100" style="object-fit:cover">
+                    </div>
+                    <div class="text-muted small mt-1">Xem trước</div>
+                </div>
+
+                <!-- Upload from device -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-2">
+                        <i class="fa-solid fa-upload text-danger me-1"></i>Tải ảnh từ máy
+                    </h6>
+                    <div id="avatar-drop-zone"
+                         class="border border-2 border-dashed rounded-3 p-3 text-center"
+                         style="border-color:#dc3545!important;cursor:pointer;background:#fff5f5;transition:.2s"
+                         onclick="document.getElementById('avatar-file-input').click()"
+                         ondragover="event.preventDefault();this.style.background='#ffe0e0'"
+                         ondragleave="this.style.background='#fff5f5'"
+                         ondrop="handleAvatarDrop(event)">
+                        <i class="fa-solid fa-cloud-arrow-up text-danger fs-5 mb-1"></i>
+                        <p class="mb-0 text-muted small">
+                            Kéo thả ảnh vào đây hoặc
+                            <span class="text-danger fw-semibold">chọn file</span>
+                        </p>
+                        <p class="text-muted mb-0" style="font-size:11px">JPG, PNG, WEBP — Tối đa 5MB</p>
+                    </div>
+                    <input type="file" id="avatar-file-input" class="d-none" accept="image/*">
+                    <div id="avatar-upload-status" class="mt-2"></div>
+                </div>
+
+                <!-- Preset suggestions -->
+                <div>
+                    <h6 class="fw-semibold mb-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-danger me-1"></i>Gợi ý avatar dễ thương
+                    </h6>
+                    <div class="d-flex gap-2 mb-3 flex-wrap">
+                        <button class="btn btn-sm btn-danger avatar-cat-btn" data-cat="all"
+                                onclick="filterAvatars('all')">Tất cả</button>
+                        <button class="btn btn-sm btn-outline-danger avatar-cat-btn" data-cat="nhanvat"
+                                onclick="filterAvatars('nhanvat')">Nhân vật</button>
+                        <button class="btn btn-sm btn-outline-danger avatar-cat-btn" data-cat="robot"
+                                onclick="filterAvatars('robot')">Robot dễ thương</button>
+                        <button class="btn btn-sm btn-outline-danger avatar-cat-btn" data-cat="emoji"
+                                onclick="filterAvatars('emoji')">Vui nhộn</button>
+                        <button class="btn btn-sm btn-outline-danger avatar-cat-btn" data-cat="minimal"
+                                onclick="filterAvatars('minimal')">Tối giản</button>
+                    </div>
+                    <div id="preset-avatar-grid" class="row g-2"
+                         style="max-height:260px;overflow-y:auto;padding-right:4px">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger px-4"
+                        onclick="saveAvatarSelection()">
+                    <i class="fa-solid fa-floppy-disk me-1"></i>Lưu ảnh đại diện
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="JAVASCRIPT/auth.js"></script>
+<script src="JAVASCRIPT/profile.js"></script>
+</body>
+</html>

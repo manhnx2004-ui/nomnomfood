@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập - NomNomFood</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="../CSS/footer.css" />
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+    <nav class="navbar bg-danger py-3 px-4">
+        <a class="navbar-brand text-white fw-bold fs-5" href="index.html">
+            <i class="fa-solid fa-utensils me-2"></i>NomNomFood
+        </a>
+        <a href="dki.html" class="btn btn-outline-light btn-sm">Chưa có tài khoản? Đăng ký</a>
+    </nav>
+
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-4">
+        <div class="card rounded-4 shadow p-4" style="max-width: 420px; width: 100%;">
+            <div class="text-center mb-4">
+                <div class="bg-danger bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width:64px;height:64px;">
+                    <i class="fa-solid fa-user text-danger fs-4"></i>
+                </div>
+                <h2 class="mb-1 fs-4">Đăng nhập</h2>
+                <p class="text-secondary small">Đăng nhập để đặt món và quản lý đơn hàng</p>
+            </div>
+
+            <div id="loginError" class="alert alert-danger d-none mb-3"></div>
+
+            <form id="loginForm" novalidate>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" for="loginEmail">Email</label>
+                    <input id="loginEmail" class="form-control" type="email"
+                           placeholder="email@example.com" required autocomplete="email" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold" for="loginPassword">Mật khẩu</label>
+                    <input id="loginPassword" class="form-control" type="password"
+                           placeholder="Nhập mật khẩu" required autocomplete="current-password" />
+                </div>
+                <button id="loginBtn" class="btn btn-danger w-100 mb-3 py-2" type="submit">
+                    <i class="fa-solid fa-right-to-bracket me-1"></i>Đăng nhập
+                </button>
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-secondary">Chưa có tài khoản?</small>
+                    <a href="dki.html" class="text-danger fw-semibold text-decoration-none">Đăng ký ngay</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về Chúng Tôi</h3>
+                <p>
+                    NomNomFood - Đặt đồ ăn ngon, giao tận nơi<br />
+                    Địa chỉ: 123 Trần Phú, Hà Nội<br />
+                    Hotline: 0123 456 789<br />
+                    Email: info@nomnomfood.vn
+                </p>
+            </div>
+            <div class="footer-column">
+                <h3>Liên Kết Nhanh</h3>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="product.html">Sản phẩm</a></li>
+                    <li><a href="cart.html">Giỏ hàng</a></li>
+                    <li><a href="orders.html">Đơn hàng</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Hỗ Trợ Khách Hàng</h3>
+                <ul>
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="about.html">Về chúng tôi</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Kết Nối Với Chúng Tôi</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-facebook me-2"></i>Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-instagram me-2"></i>Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a></li>
+                    <li><a href="#"><i class="fab fa-tiktok me-2"></i>TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 NomNomFood. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="JAVASCRIPT/auth.js"></script>
+    <script src="JAVASCRIPT/login.js"></script>
+</body>
+</html>

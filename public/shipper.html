@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giao hàng - NomNomFood</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        body { background: #eef2f7; margin: 0; font-family: 'Segoe UI', sans-serif; }
+
+        .ship-header {
+            background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+            color: #fff; height: 60px; position: sticky; top: 0; z-index: 1030;
+            display: flex; align-items: center; padding: 0 16px;
+            justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+        }
+        .ship-header .brand { font-size: 1.1rem; font-weight: 700; }
+        .ship-header .staff { font-size: .8rem; opacity: .75; }
+
+        .tab-bar {
+            background: #fff; border-bottom: 1px solid #dde3ec;
+            display: flex; position: sticky; top: 60px; z-index: 1000;
+            box-shadow: 0 1px 4px rgba(0,0,0,.05);
+            overflow-x: auto;
+        }
+        .tab-btn {
+            flex: 1; min-width: 100px; padding: 13px 8px; border: none; background: transparent;
+            font-size: .82rem; font-weight: 600; color: #888; cursor: pointer;
+            border-bottom: 3px solid transparent; transition: .15s; white-space: nowrap;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .tab-btn.active { color: #0077b6; border-bottom-color: #0077b6; }
+        .tab-badge {
+            border-radius: 10px; padding: 1px 7px; font-size: .7rem; font-weight: 700; color: #fff;
+        }
+        .badge-wait  { background: #e74c3c; }
+        .badge-go    { background: #0077b6; }
+        .badge-done  { background: #2d9c6e; }
+
+        .page-content { padding: 16px; max-width: 640px; margin: 0 auto; }
+
+        /* ─── Waiting card (brief, tap to accept) ─────────────── */
+        .waiting-card {
+            background: #fff; border-radius: 14px; margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.07); padding: 14px 16px;
+            border-left: 4px solid #e85d04;
+        }
+        .waiting-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .wc-id   { font-family: monospace; font-weight: 700; font-size: .95rem; color: #222; }
+        .wc-time { font-size: .75rem; color: #aaa; margin-left: 8px; }
+        .wc-badge {
+            border-radius: 12px; padding: 2px 10px; font-size: .72rem; font-weight: 700;
+        }
+        .wc-badge.cod  { background: #fff3cd; color: #856404; }
+        .wc-badge.paid { background: #d1e7dd; color: #0a3622; }
+        .wc-customer { font-size: .9rem; color: #333; margin-bottom: 6px; }
+        .wc-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: .82rem; color: #666; }
+        .wc-price { font-weight: 700; color: #dc2f02; font-size: .95rem; }
+        .btn-accept {
+            width: 100%; border: none; border-radius: 10px;
+            background: linear-gradient(135deg, #0077b6, #005f99);
+            color: #fff; padding: 11px; font-size: .9rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 8px rgba(0,119,182,.3);
+            transition: opacity .15s;
+        }
+        .btn-accept:hover { opacity: .92; }
+        .btn-accept:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+
+        /* ─── In-transit / done cards ─────────────────────────── */
+        .delivery-card {
+            background: #fff; border-radius: 16px; margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08); overflow: hidden;
+            border: 1px solid #e8edf5;
+        }
+        .delivery-card .card-header-strip {
+            background: linear-gradient(90deg, #0077b6, #00b4d8);
+            padding: 10px 16px; display: flex; justify-content: space-between;
+            align-items: center; color: #fff;
+        }
+        .delivery-card.done .card-header-strip {
+            background: linear-gradient(90deg, #2d9c6e, #43c58c);
+        }
+        .order-id-badge { font-family: monospace; font-weight: 700; font-size: .88rem; }
+        .order-elapsed  { font-size: .75rem; opacity: .8; }
+
+        .card-body-inner { padding: 14px 16px; }
+
+        .info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: .88rem; }
+        .info-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: .9rem;
+        }
+        .icon-blue { background: #e8f4fd; color: #0077b6; }
+        .icon-red  { background: #fde8e8; color: #e74c3c; }
+        .info-content { flex: 1; }
+        .info-label { font-size: .72rem; color: #999; margin-bottom: 1px; }
+        .info-value { font-weight: 600; color: #222; line-height: 1.3; }
+
+        .items-section { background: #f8f9fb; border-radius: 10px; padding: 10px 12px; margin: 10px 0; }
+        .item-row { display: flex; justify-content: space-between; font-size: .83rem; padding: 4px 0; border-bottom: 1px dashed #eaecf0; }
+        .item-row:last-child { border-bottom: none; }
+        .item-name-qty { display: flex; align-items: center; gap: 6px; }
+        .qty-badge { background: #0077b622; color: #0077b6; border-radius: 4px; padding: 0 5px; font-size: .75rem; font-weight: 700; }
+
+        .note-block {
+            background: #fffde7; border-left: 3px solid #ffd54f;
+            font-size: .82rem; color: #5d4037; padding: 6px 10px;
+            border-radius: 0 8px 8px 0; margin: 8px 0; font-style: italic;
+        }
+
+        .cod-block {
+            background: linear-gradient(135deg, #fff3e8, #ffe0c0);
+            border: 2px solid #e85d04; border-radius: 12px; padding: 12px 16px; margin: 10px 0;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .cod-label  { font-size: .78rem; color: #b34900; font-weight: 600; }
+        .cod-amount { font-size: 1.4rem; font-weight: 800; color: #dc2f02; }
+
+        .paid-block {
+            background: linear-gradient(135deg, #e8f9f0, #c8f0dc);
+            border: 2px solid #2d9c6e; border-radius: 12px; padding: 12px 16px; margin: 10px 0;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .paid-block i      { font-size: 1.4rem; color: #2d9c6e; }
+        .paid-block .paid-text { font-weight: 700; color: #1a6342; }
+        .paid-block .paid-sub  { font-size: .75rem; color: #2d9c6e; }
+
+        .btn-done {
+            width: 100%; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, #2d9c6e, #25875d);
+            color: #fff; padding: 14px; font-size: 1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 3px 10px rgba(45,156,110,.35);
+            transition: opacity .15s;
+        }
+        .btn-done:hover   { opacity: .92; }
+        .btn-done:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+
+        /* ─── Summary bar ─────────────────────────────────────── */
+        .summary-bar {
+            background: #fff; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px;
+            display: flex; gap: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06);
+        }
+        .summary-item { flex: 1; text-align: center; }
+        .summary-label { font-size: .72rem; color: #888; }
+        .summary-value { font-size: 1.05rem; font-weight: 700; color: #222; }
+
+        .completed-badge { background: #e8f9f0; color: #2d9c6e; border-radius: 20px; padding: 2px 10px; font-size: .75rem; font-weight: 700; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #bbb; }
+        .empty-state i { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+        .refresh-info { font-size: .72rem; opacity: .7; }
+    </style>
+</head>
+<body>
+
+<header class="ship-header">
+    <div>
+        <div class="brand"><i class="fa-solid fa-motorcycle me-2"></i>Giao hàng</div>
+        <div class="staff" id="shipper-name"></div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+        <span class="refresh-info"><i class="fa-solid fa-rotate me-1"></i><span id="countdown">30</span>s</span>
+        <button class="btn btn-outline-light btn-sm" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+    </div>
+</header>
+
+<div class="tab-bar">
+    <button class="tab-btn active" id="tab-delivering" onclick="switchTab('delivering')">
+        <i class="fa-solid fa-bell"></i>Đơn chờ nhận
+        <span class="tab-badge badge-wait" id="badge-delivering">0</span>
+    </button>
+    <button class="tab-btn" id="tab-shipping" onclick="switchTab('shipping')">
+        <i class="fa-solid fa-motorcycle"></i>Đang giao
+        <span class="tab-badge badge-go" id="badge-shipping">0</span>
+    </button>
+    <button class="tab-btn" id="tab-completed" onclick="switchTab('completed')">
+        <i class="fa-solid fa-circle-check"></i>Đã xong
+        <span class="tab-badge badge-done" id="badge-completed">0</span>
+    </button>
+</div>
+
+<div class="page-content">
+    <div id="content-delivering"></div>
+    <div id="content-shipping"  class="d-none"></div>
+    <div id="content-completed" class="d-none"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="JAVASCRIPT/auth.js"></script>
+<script src="JAVASCRIPT/shipper.js"></script>
+</body>
+</html>

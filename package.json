@@ -1,0 +1,28 @@
+{
+  "name": "nomnomfood",
+  "version": "1.0.0",
+  "description": "NomNomFood - website đặt đồ ăn trực tuyến",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.0",
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.2",
+    "compression": "^1.8.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.2.1",
+    "mongoose": "^9.6.2",
+    "multer": "^2.1.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

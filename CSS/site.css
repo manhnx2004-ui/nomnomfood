@@ -1,0 +1,213 @@
+/* Global site styles */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #FFF0EB 0%, #FFF5F5 50%, #FFF8F0 100%);
+  min-height: 100vh;
+  color: #222;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-header {
+  background: linear-gradient(135deg, #d70018 0%, #ff5e62 100%);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.site-header .navbar {
+  padding: 1rem 0;
+}
+
+.site-brand {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.site-nav .nav-link {
+  color: rgba(255, 255, 255, 0.92);
+  transition: color 0.2s ease;
+}
+
+.site-nav .nav-link:hover,
+.site-nav .nav-link.active {
+  color: #fff;
+}
+
+.hero {
+  padding: 80px 0 40px;
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+.hero-text {
+  color: #545968;
+  max-width: 620px;
+}
+
+.badge-pill {
+  border-radius: 999px;
+}
+
+.feature-card,
+.product-card,
+.summary-card,
+.section-card,
+.contact-card {
+  border: none;
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 60px rgba(26, 32, 44, 0.08);
+}
+
+.feature-card:hover,
+.product-card:hover,
+.section-card:hover,
+.contact-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s ease;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.btn-primary,
+.btn-danger,
+.btn-outline-primary {
+  border-radius: 999px;
+}
+
+.btn-primary {
+  background: #d70018;
+  border-color: #d70018;
+}
+
+.btn-primary:hover {
+  background: #b10013;
+  border-color: #b10013;
+}
+
+.btn-outline-primary {
+  border-color: #d70018;
+  color: #d70018;
+}
+
+.btn-outline-primary:hover {
+  background: rgba(215, 0, 24, 0.08);
+}
+
+.page-section {
+  padding: 60px 0;
+}
+
+.page-section--compact {
+  padding: 40px 0;
+}
+
+.site-footer {
+  background: #111;
+  color: #d6d6d6;
+  padding: 60px 0;
+}
+
+.site-footer a {
+  color: #bdbdbd;
+}
+
+.site-footer a:hover {
+  color: #fff;
+}
+
+.site-footer .footer-title {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.footer-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 1rem;
+  border: 1px solid #dfe3eb;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: none;
+  border-color: #d70018;
+}
+
+.page-card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.product-price {
+  color: #d70018;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.order-pill {
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.order-status--pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.order-status--completed {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.order-status--delivering {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.order-status--cancelled {
+  background: #f8d7da;
+  color: #842029;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 60px;
+  }
+
+  .site-header .navbar {
+    padding: 0.8rem 0;
+  }
+}
