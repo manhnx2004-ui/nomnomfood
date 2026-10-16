@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Groq = require("groq-sdk");
 
-const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// Thiếu khóa thì không tạo client (groq-sdk ném lỗi làm sập cả server); route bên dưới trả 503
+const client = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
 const SYSTEM_PROMPT = `Bạn là trợ lý ảo NomBot của NomNomFood - ứng dụng đặt đồ ăn trực tuyến tại Việt Nam.
 
